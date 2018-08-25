@@ -29,12 +29,13 @@ GND = GND
 
 **How the software works:**
 
-Easiest way to make it work for you:
-    - Choose a remote number
-    - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
-    - Upload the sketch
-    - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - send 'p' to the serial terminal
+Easiest way to make it work for you:  
+    - Choose a remote number  
+    - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start  
+    - Upload the sketch  
+    - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly  
+    - send 'p' to the serial terminal  
+
 To make a group command, just repeat the last two steps with another blind (one by one)
 
 The rolling code value is stored in the EEPROM, so that you don't loose count of your rolling code after a reset.   
