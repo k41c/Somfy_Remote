@@ -20,7 +20,7 @@ MOSI_PIN = 11
 
 SS_PIN = 10
 
-GD02 = 6
+GD02 = 3
 
 VCC = 3,3V
 
