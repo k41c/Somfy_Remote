@@ -17,7 +17,7 @@ class SomfyRemote {
     void send_bitZero();
 
   public:
-    SomfyRemote(uint8_t rollingCode, byte remoteCode); // Constructor requires rolling code and remote code
-    void move(char button); // Method to send a command (Possible inputs: u, d, m, p)
+    SomfyRemote(uint8_t rollingCode, byte remoteCode, string module); // Constructor requires rolling code, remote code and module
+    void move(char button); // Method to send a command (Possible inputs: U, D, M, P)
 };
 #endif

@@ -8,9 +8,10 @@
 #define EEPROM_ADDRESS 0
 
 // Constructor
-SomfyRemote::SomfyRemote(uint8_t rollingCode, byte remoteCode) {
+SomfyRemote::SomfyRemote(uint8_t rollingCode, byte remoteCode, string module) {
   _rollingCode = rollingCode;
   _remoteCode = remoteCode;
+  _module = module;
 }
 
 // Send a command to the blinds
@@ -22,28 +23,27 @@ void SomfyRemote::move(char button) {
   if (EEPROM.get(EEPROM_ADDRESS, currentRollingCode) < _rollingCode) {
     EEPROM.put(EEPROM_ADDRESS, _rollingCode);
   }
-  // Build frame according to selected command
-    if(button == 'u') {
-      BuildFrame(frame, UP);
-    }
-    else if(button == 'm') {
-      BuildFrame(frame, MY);
-    }
-    else if(button == 'd') {
-      BuildFrame(frame, DOWN);
-    }
-    else if(button == 'p') {
-      BuildFrame(frame, PROG);
-    }
-    else {
-    }
+// Build frame according to selected command
+  button = toupper(button);
 
-    // Send the frame according to Somfy RTS protocol
-    SendCommand(frame, 2);
-    for(int i = 0; i<2; i++) {
-      SendCommand(frame, 7);
-    }
+  if(button == 'U') {
+    BuildFrame(frame, UP);
+  }
+  else if(button == 'M') {
+    BuildFrame(frame, MY);
+  }
+  else if(button == 'D') {
+    BuildFrame(frame, DOWN);
+  }
+  else if(button == 'P') {
+    BuildFrame(frame, PROG);
+  }
 
+  // Send the frame according to Somfy RTS protocol
+  SendCommand(frame, 2);
+  for(int i = 0; i<2; i++) {
+    SendCommand(frame, 7);
+  }
 }
 
 // Build frame according to Somfy RTS protocol
@@ -84,17 +84,26 @@ void SomfyRemote::BuildFrame(byte *frame, byte button) {
 // Send frame according to Somfy RTS protocol
 void SomfyRemote::SendCommand(byte *frame, byte sync) {
   if(sync == 2) { // Only with the first frame.
-  // initialize radio chip
+  // Define pins according to used module
+  switch (toupper(_module))
+  {
+    case 'ARDUINO': ELECHOUSE_cc1101.setESP8266(0); break;
+    case 'ESP8266': ELECHOUSE_cc1101.setESP8266(1); break;
+    case 'ESP32': ELECHOUSE_cc1101.setESP8266(2); break;
+    default: ELECHOUSE_cc1101.setESP8266(0); break;
+  }
+
+  // Initialize radio chip
   ELECHOUSE_cc1101.Init(PA10);
 
 	// Enable transmission at 433.42 MHz
-	  ELECHOUSE_cc1101.SetTx(433.42);
+	ELECHOUSE_cc1101.SetTx(433.42);
 
   //Wake-up pulse & Silence
 	digitalWrite(GDO2, HIGH); // High
-    delayMicroseconds(9415);
+  delayMicroseconds(9415);
 	digitalWrite(GDO2, LOW);// Low
-    delayMicroseconds(89565);
+  delayMicroseconds(89565);
   }
 
 // Hardware sync: two sync for the first frame, seven for the following ones.
@@ -127,17 +136,17 @@ void SomfyRemote::SendCommand(byte *frame, byte sync) {
 // Send bit zero
 void SomfyRemote::send_bitZero() {
 	// Somfy RTS bits are manchester encoded: 0 = high->low
-      digitalWrite(GDO2, HIGH); // PIN 2 HIGH
-      delayMicroseconds(SYMBOL);
-      digitalWrite(GDO2, LOW); // PIN 2 LOW
-      delayMicroseconds(SYMBOL);
+  digitalWrite(GDO2, HIGH); // PIN 2 HIGH
+  delayMicroseconds(SYMBOL);
+  digitalWrite(GDO2, LOW); // PIN 2 LOW
+  delayMicroseconds(SYMBOL);
 }
 
 // Send bit one
 void SomfyRemote::send_bitOne() {
-	// Somfy RTS bits are manchester encoded: 1 = low->high
-      digitalWrite(GDO2, LOW); // PIN 2 LOW
-      delayMicroseconds(SYMBOL);
-      digitalWrite(GDO2, HIGH); // PIN 2 HIGH
-      delayMicroseconds(SYMBOL);
+  // Somfy RTS bits are manchester encoded: 1 = low->high
+  digitalWrite(GDO2, LOW); // PIN 2 LOW
+  delayMicroseconds(SYMBOL);
+  digitalWrite(GDO2, HIGH); // PIN 2 HIGH
+  delayMicroseconds(SYMBOL);
 }

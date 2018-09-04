@@ -6,21 +6,22 @@
    Easiest way to make it work for you:
     - Choose a remote number
     - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
+    - Choose the used module
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
     - send 'p' to the serial terminal
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
-    - u will make it go up
-    - s make it stop
-    - d will make it go down
-    - you can also send a HEX number directly for any weird command you (0x9 for the sun and wind detector for instance)
+    - U will make it go up
+    - D will make it go down
+    - M for MY command
+    - P for PROGRAM command
 */
 
 #include <Somfy_Remote.h>
 
-SomfyRemote somfy(0x131478, 17); // <- Change remote and rolling code here!
+SomfyRemote somfy(0x131478, 17, 'ARDUINO'); // <- Change remote, rolling code and module here!
 
 void setup() {
   Serial.begin(115200);
