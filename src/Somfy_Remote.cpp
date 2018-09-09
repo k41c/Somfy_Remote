@@ -8,7 +8,7 @@
 #define EEPROM_ADDRESS 0
 
 // Constructor
-SomfyRemote::SomfyRemote(uint8_t rollingCode, byte remoteCode, string module) {
+SomfyRemote::SomfyRemote(uint8_t rollingCode, byte remoteCode, uint8_t module) {
   _rollingCode = rollingCode;
   _remoteCode = remoteCode;
   _module = module;
@@ -67,7 +67,6 @@ void SomfyRemote::BuildFrame(byte *frame, byte button) {
   }
   checksum &= 0b1111; // Keep the last 4 bits only
 
-
 //Checksum integration
   frame[1] |= checksum; //  If a XOR of all the nibbles is equal to 0, the blinds will
                         // consider the checksum ok.
@@ -85,13 +84,7 @@ void SomfyRemote::BuildFrame(byte *frame, byte button) {
 void SomfyRemote::SendCommand(byte *frame, byte sync) {
   if(sync == 2) { // Only with the first frame.
   // Define pins according to used module
-  switch (toupper(_module))
-  {
-    case 'ARDUINO': ELECHOUSE_cc1101.setESP8266(0); break;
-    case 'ESP8266': ELECHOUSE_cc1101.setESP8266(1); break;
-    case 'ESP32': ELECHOUSE_cc1101.setESP8266(2); break;
-    default: ELECHOUSE_cc1101.setESP8266(0); break;
-  }
+  ELECHOUSE_cc1101.setESP8266(_module);
 
   // Initialize radio chip
   ELECHOUSE_cc1101.Init(PA10);

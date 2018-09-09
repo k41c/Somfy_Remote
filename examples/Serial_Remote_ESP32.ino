@@ -20,18 +20,22 @@
 */
 
 #include <Somfy_Remote.h>
+#include <EEPROM.h>
 
-SomfyRemote somfy(0x131478, 17, 'ARDUINO'); // <- Change remote, rolling code and module here!
+#define EEPROM_SIZE 64
+
+SomfyRemote somfy(0x131478, 17, 2); // <- Change remote, rolling code and module here!
 
 void setup() {
   Serial.begin(115200);
+  EEPROM.begin(EEPROM_SIZE);
 }
 
 void loop() {
 // check if input is available
   if (Serial.available() > 0) {
     char command = (char)Serial.read();
-
     somfy.move(command);
+    EEPROM.commit();
   }
 }
