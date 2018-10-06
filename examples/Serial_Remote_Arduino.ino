@@ -19,6 +19,7 @@
     - P for PROGRAM command
 */
 
+#include <Arduino.h>
 #include <Somfy_Remote.h>
 
 SomfyRemote somfy(0x131478, 17, 0); // <- Change remote, rolling code and module here!

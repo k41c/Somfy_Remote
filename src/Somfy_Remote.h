@@ -4,7 +4,6 @@
 #include <EEPROM.h>
 #include <ELECHOUSE_CC1101_RCS_DRV.h>
 
-
 class SomfyRemote {
   private:
     uint8_t _rollingCode;

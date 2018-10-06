@@ -19,6 +19,7 @@
     - P for PROGRAM command
 */
 
+#include <Arduino.h>
 #include <Somfy_Remote.h>
 #include <EEPROM.h>
 

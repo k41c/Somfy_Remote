@@ -1,0 +1,30 @@
+{
+    "name": "Somfy_Remote",
+    "keywords": "somfy, spi, bus, blinds, cc1101",
+    "description": "Allows to control Somfy blinds via a CC1101 module by Texas Instruments.",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/EinfachArne/Somfy_Remote.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Arne Wulf",
+        "email": "arne-wulf@arcor.de",
+        "url": null,
+        "maintainer": true
+      }
+    ],
+    "dependencies":   
+    {
+      "name": "RCSwitch-CC1101-Driver-Lib",
+      "version": "https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib.git"
+    },
+    "version": "1.0.0",
+    "frameworks": "arduino",
+    "platforms":         [
+        "espressif32",
+        "atmelavr"
+    ]
+  }

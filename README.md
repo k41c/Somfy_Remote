@@ -5,13 +5,11 @@ If you want to learn more about the Somfy RTS protocol, check out [Pushtack](htt
 
 
 ## How the hardware works
-
 This library is based on a driver library for the CC1101 module: https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib
 
 Connect your CC1101 module according to the wiring instructions for Arduino or ESP32 of the driver library.
 
 ## How the software works
-
 Easiest way to make it work for you:  
 * Choose a remote number 
 * Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
