@@ -5,13 +5,25 @@
 #define MY 0x1
 #define DOWN 0x4
 #define PROG 0x8
-#define EEPROM_ADDRESS 0
+
+uint currentEppromAdress = 0;
 
 // Constructor
-SomfyRemote::SomfyRemote(uint8_t rollingCode, byte remoteCode, uint8_t module) {
+SomfyRemote::SomfyRemote(String name, uint rollingCode, byte remoteCode, uint module) {
+  _name = name;
   _rollingCode = rollingCode;
   _remoteCode = remoteCode;
   _module = module;
+  _eepromAdress = getNextEepromAdress();
+}
+
+String SomfyRemote::getName() {
+  return _name;
+}
+
+uint getNextEepromAdress() {
+  currentEppromAdress = currentEppromAdress + 1;
+  return currentEppromAdress;
 }
 
 // Send a command to the blinds
@@ -20,8 +32,8 @@ void SomfyRemote::move(char button) {
   byte frame[7];
 
 // Set new rolling code if not already set
-  if (EEPROM.get(EEPROM_ADDRESS, currentRollingCode) < _rollingCode) {
-    EEPROM.put(EEPROM_ADDRESS, _rollingCode);
+  if (EEPROM.get(_eepromAdress, currentRollingCode) < _rollingCode) {
+    EEPROM.put(_eepromAdress, _rollingCode);
   }
 // Build frame according to selected command
   button = toupper(button);
@@ -51,7 +63,7 @@ void SomfyRemote::BuildFrame(byte *frame, byte button) {
   unsigned int code;
   byte checksum;
 
-  EEPROM.get(EEPROM_ADDRESS, code);
+  EEPROM.get(_eepromAdress, code);
   frame[0] = 0xA7; // Encryption key.
   frame[1] = button << 4;  // Selected button. The 4 LSB will be the checksum
   frame[2] = code >> 8;    // Rolling code (big endian)
@@ -76,7 +88,7 @@ void SomfyRemote::BuildFrame(byte *frame, byte button) {
     frame[i] ^= frame[i-1];
   }
 
-  EEPROM.put(EEPROM_ADDRESS, code + 1); //  Store the value of the rolling code in the
+  EEPROM.put(_eepromAdress, code + 1); //  Store the value of the rolling code in the
                                         // EEPROM.
 }
 
