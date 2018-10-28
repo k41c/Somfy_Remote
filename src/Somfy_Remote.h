@@ -10,13 +10,13 @@ class SomfyRemote {
     uint _rollingCode;
     byte _remoteCode;
     uint _module;
-    uint _eepromAdress;
+    uint _eepromAddress;
 
     void BuildFrame(byte *frame, byte button);
     void SendCommand(byte *frame, byte sync);
     void send_bitOne();
     void send_bitZero();
-    uint getNextEepromAdress();
+    uint getNextEepromAddress();
 
   public:
     SomfyRemote(String name, uint rollingCode, byte remoteCode, uint module); // Constructor requires name, rolling code, remote code and module

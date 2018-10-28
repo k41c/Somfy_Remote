@@ -4,6 +4,7 @@
    The rolling code will be stored in EEPROM, so that you can power the Arduino off.
    
    Easiest way to make it work for you:
+    - Choose a remote name
     - Choose a remote number
     - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
     - Choose the used module
@@ -22,14 +23,15 @@
 #include <Arduino.h>
 #include <Somfy_Remote.h>
 
-SomfyRemote somfy(0x131478, 17, 0); // <- Change remote, rolling code and module here!
+SomfyRemote somfy("remote1", 0x131478, 1, 0); // <- Change remote name, remote code, rolling code and module here!
 
 void setup() {
+  // Setup Serial
   Serial.begin(115200);
 }
 
 void loop() {
-// check if input is available
+// Check if input is available
   if (Serial.available() > 0) {
     char command = (char)Serial.read();
     somfy.move(command);

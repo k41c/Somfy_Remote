@@ -1,9 +1,10 @@
-/*   This sketch allows you to emulate a Somfy RTS or Simu HZ remote.
+/*   This sketch allows you to emulate multiple Somfy RTS or Simu HZ remotes.
    If you want to learn more about the Somfy RTS protocol, check out https://pushstack.wordpress.com/somfy-rts-protocol/
    
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
    
    Easiest way to make it work for you:
+    - Choose a remote name
     - Choose a remote number
     - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
     - Choose the used module
@@ -29,8 +30,14 @@
 // Object for MQTT communication
 Basecamp iot;
 
-// Object for blind control
-SomfyRemote somfy("remote1", 0x149739, 1, 2); // <- Change remote name, remote code, rolling code and module here;
+// Number of remotes to store
+const uint remoteCount = 2;
+
+// Array storing the multiple remotes
+SomfyRemote remotes[remoteCount] = {
+    SomfyRemote("remote1", 0x649171, 1, 2), // <- Change remote name, remote code, rolling code and module here!
+    SomfyRemote("remote2", 0x274862, 1, 2)  // <- Change remote name, remote code, rolling code and module here!
+};
 
 // Variables for the mqtt topics
 String controlTopic;
@@ -43,6 +50,7 @@ void setup() {
   iot.begin();
 
   //Configure the MQTT topics
+  Serial.println(iot.hostname);
   controlTopic = "room/sender/" + iot.hostname + "/command";
 
   //Set up the Callbacks for the MQTT instance. Refer to the Async MQTT Client documentation  
@@ -67,7 +75,21 @@ DEBUG_PRINTLN(__func__);
 
 // Check the message topic
   if (strcmp(topic, controlTopic.c_str()) == 0)  {
-    somfy.move(payload[0]);
+        // Get string from serial input and divide it into remote name and command 
+        String payloadInput = payload;
+        uint divider = payloadInput.indexOf("/");
+        String remoteName = payloadInput.substring(0, divider);
+        char command = ((payloadInput.substring(divider+1)).c_str())[0];
+
+        // Send the command via the corresponding remote
+        for (int i = 0; i < remoteCount; i++)
+        {
+            if (remotes[i].getName() == remoteName)
+            {
+                remotes[i].move(command);
+            }
+        }
+    // Commit the rolling codes
     EEPROM.commit();
   } 
 }
