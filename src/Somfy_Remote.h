@@ -7,20 +7,20 @@
 class SomfyRemote {
   private:
     String _name;
-    uint _rollingCode;
     byte _remoteCode;
-    uint _module;
-    uint _eepromAddress;
+    uint8_t _rollingCode;
+    uint8_t _module;
+    uint8_t _eepromAddress;
 
     void BuildFrame(byte *frame, byte button);
     void SendCommand(byte *frame, byte sync);
     void send_bitOne();
     void send_bitZero();
-    uint getNextEepromAddress();
+    uint8_t getNextEepromAddress();
 
   public:
-    SomfyRemote(String name, uint rollingCode, byte remoteCode, uint module); // Constructor requires name, rolling code, remote code and module
-    String getName();
+    SomfyRemote(String name, byte remoteCode, uint8_t rollingCode, uint8_t module); // Constructor requires name, rolling code, remote code and module
+    String getName(); // Getter for name
     void move(char button); // Method to send a command (Possible inputs: U, D, M, P)
 };
 #endif

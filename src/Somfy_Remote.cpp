@@ -6,14 +6,14 @@
 #define DOWN 0x4
 #define PROG 0x8
 
-uint currentEppromAddress = 0;
-uint gdo2_pin = 0;
+uint8_t currentEppromAddress = 0;
+uint8_t gdo2_pin = 0;
 
 // Constructor
-SomfyRemote::SomfyRemote(String name, uint rollingCode, byte remoteCode, uint module) {
+SomfyRemote::SomfyRemote(String name, byte remoteCode, uint8_t rollingCode, uint8_t module) {
   _name = name;
-  _rollingCode = rollingCode;
   _remoteCode = remoteCode;
+  _rollingCode = rollingCode;
   _module = module;
   _eepromAddress = getNextEepromAddress();
 }
@@ -24,7 +24,7 @@ String SomfyRemote::getName() {
 }
 
 // Generates the next available EEPROM address
-uint SomfyRemote::getNextEepromAddress() {
+uint8_t SomfyRemote::getNextEepromAddress() {
   currentEppromAddress = currentEppromAddress + 4;
   return currentEppromAddress;
 }
