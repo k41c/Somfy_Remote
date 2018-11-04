@@ -4,6 +4,7 @@
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
    
    Easiest way to make it work for you:
+    - Select the number of remotes you would like to use
     - Choose a remote name
     - Choose a remote number
     - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
@@ -31,7 +32,7 @@
 Basecamp iot;
 
 // Number of remotes to store
-const uint remoteCount = 2;
+const uint8_t remoteCount = 2;
 
 // Array storing the multiple remotes
 SomfyRemote remotes[remoteCount] = {
@@ -77,7 +78,7 @@ DEBUG_PRINTLN(__func__);
   if (strcmp(topic, controlTopic.c_str()) == 0)  {
         // Get string from serial input and divide it into remote name and command 
         String payloadInput = payload;
-        uint divider = payloadInput.indexOf("/");
+        uint8_t divider = payloadInput.indexOf("/");
         String remoteName = payloadInput.substring(0, divider);
         char command = ((payloadInput.substring(divider+1)).c_str())[0];
 

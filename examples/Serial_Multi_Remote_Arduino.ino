@@ -11,7 +11,7 @@
     - Choose the used module
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - send 'yourRemoteName/p' to the serial terminal
+    - send 'p' to the serial terminal
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
@@ -23,31 +23,24 @@
 
 #include <Arduino.h>
 #include <Somfy_Remote.h>
-#include <EEPROM.h>
-
-#define EEPROM_SIZE 64
 
 // Number of remotes to store
 const uint8_t remoteCount = 2;
 
 // Array storing the multiple remotes
 SomfyRemote remotes[remoteCount] = {
-    SomfyRemote("remote1", 0x131171, 1, 2), // <- Change remote name, remote code, rolling code and module here!
-    SomfyRemote("remote2", 0x089501, 1, 2)  // <- Change remote name, remote code, rolling code and module here!
+    SomfyRemote("remote1", 0x102938, 1, 0), // <- Change remote name, remote code, rolling code and module here!
+    SomfyRemote("remote2", 0x654783, 1, 0)  // <- Change remote name, remote code, rolling code and module here!
 };
 
-void setup()
-{
-    // Setup Serial and EEPROM
-    Serial.begin(115200);
-    EEPROM.begin(EEPROM_SIZE);
+void setup() {
+  // Setup Serial
+  Serial.begin(115200);
 }
 
-void loop()
-{
-    // check if input is available
-    if (Serial.available() > 0)
-    {
+void loop() {
+// Check if input is available
+  if (Serial.available() > 0) {
         // Get string from serial input and divide it into remote name and command 
         String serialInput = Serial.readString();
         uint8_t divider = serialInput.indexOf("/");
@@ -62,8 +55,5 @@ void loop()
                 remotes[i].move(command);
             }
         }
-        
-        // Commit the rolling codes
-        EEPROM.commit();
-    }
+  }
 }
