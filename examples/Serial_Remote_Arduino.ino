@@ -6,7 +6,6 @@
    Easiest way to make it work for you:
     - Choose a remote name
     - Choose a remote number
-    - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
     - Choose the used module
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
@@ -23,16 +22,22 @@
 #include <Arduino.h>
 #include <Somfy_Remote.h>
 
-SomfyRemote somfy("remote1", 0x131478, 1, 0); // <- Change remote name, remote code, rolling code and module here!
+SomfyRemote somfy("remote1", 0x131478); // <- Change remote name and remote code here!
 
-void setup() {
+void setup()
+{
   // Setup Serial
   Serial.begin(115200);
+
+  // Set the used device
+  SomfyRemote::setDevice(0); // <- Change the device here -> Arduino(0) || ESP8266(1) || ESP32(2)
 }
 
-void loop() {
-// Check if input is available
-  if (Serial.available() > 0) {
+void loop()
+{
+  // Check if input is available
+  if (Serial.available() > 0)
+  {
     char command = (char)Serial.read();
     somfy.move(command);
   }

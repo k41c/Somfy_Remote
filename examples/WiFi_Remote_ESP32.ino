@@ -4,12 +4,12 @@
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
    
    Easiest way to make it work for you:
+    - Choose a remote name
     - Choose a remote number
-    - Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
     - Choose the used module
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - send 'P' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
+    - Send 'remoteName/p' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
@@ -30,44 +30,52 @@
 Basecamp iot;
 
 // Object for blind control
-SomfyRemote somfy("remote1", 0x149739, 1, 2); // <- Change remote name, remote code, rolling code and module here;
+SomfyRemote somfy("remote1", 0x149739); // <- Change remote name and remote code here;
 
 // Variables for the mqtt topics
 String controlTopic;
 
-void setup() {
+void setup()
+{
   // Initialize EEPROM
   EEPROM.begin(EEPROM_SIZE);
-  
+
+  // Set the used device
+  SomfyRemote::setDevice(2); // <- Change the device here -> Arduino(0) || ESP8266(1) || ESP32(2)
+
   // Initialize Basecamp
   iot.begin();
 
   //Configure the MQTT topics
   controlTopic = "room/sender/" + iot.hostname + "/command";
 
-  //Set up the Callbacks for the MQTT instance. Refer to the Async MQTT Client documentation  
+  //Set up the Callbacks for the MQTT instance. Refer to the Async MQTT Client documentation
   iot.mqtt.onConnect(onMqttConnect);
   iot.mqtt.onMessage(onMqttMessage);
 }
 
-void loop() {
-// Do nothing
+void loop()
+{
+  // Do nothing
 }
 
 //This function is called when the MQTT-Server is connected
-void onMqttConnect(bool sessionPresent) {
+void onMqttConnect(bool sessionPresent)
+{
   DEBUG_PRINTLN(__func__);
   //Subscribe to the control topic
   iot.mqtt.subscribe(controlTopic.c_str(), 0);
 }
 
 //This function is called if an MQTT message is received
-void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
-DEBUG_PRINTLN(__func__);
+void onMqttMessage(char *topic, char *payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total)
+{
+  DEBUG_PRINTLN(__func__);
 
-// Check the message topic
-  if (strcmp(topic, controlTopic.c_str()) == 0)  {
+  // Check the message topic
+  if (strcmp(topic, controlTopic.c_str()) == 0)
+  {
     somfy.move(payload[0]);
     EEPROM.commit();
-  } 
+  }
 }
