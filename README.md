@@ -1,5 +1,5 @@
 # Somfy Remote
-This is a library to emulate a Somfy remote control via a CC1101 module by Texas Instruments.
+This is a library to emulate one or multiple Somfy remote controls via a CC1101 module by Texas Instruments.
 
 If you want to learn more about the Somfy RTS protocol, check out [Pushtack](https://pushstack.wordpress.com/somfy-rts-protocol/).
 
@@ -11,10 +11,10 @@ Connect your CC1101 module according to the wiring instructions for Arduino or E
 
 ## How the software works
 Easiest way to make it work for you:  
-* Choose a remote number 
-* Choose a starting point for the rolling code. Any unsigned int works, 1 is a good start
+* Choose a remote name
+* Choose a remote number
 * Choose your module (Arduino, ESP32)
-* Upload the sketch  
+* Upload the sketch
 * Long-press the program button of <b>your actual remote</b> until your blind goes up and down slightly  
 * Send 'P' to the <b>simulated remote</b> 
 
