@@ -9,12 +9,13 @@
 uint8_t currentEppromAddress = 0;
 uint8_t gdo2_pin = 0;
 
+uint8_t SomfyRemote::_device;
+
 // Constructor
-SomfyRemote::SomfyRemote(String name, byte remoteCode, uint8_t rollingCode, uint8_t module) {
+SomfyRemote::SomfyRemote(String name, byte remoteCode) {
   _name = name;
   _remoteCode = remoteCode;
-  _rollingCode = rollingCode;
-  _module = module;
+  _rollingCode = 1;
   _eepromAddress = getNextEepromAddress();
 }
 
@@ -27,6 +28,11 @@ String SomfyRemote::getName() {
 uint8_t SomfyRemote::getNextEepromAddress() {
   currentEppromAddress = currentEppromAddress + 4;
   return currentEppromAddress;
+}
+
+// Setter for device
+void SomfyRemote::setDevice(uint8_t device) {
+  _device = device;
 }
 
 // Send a command to the blinds
@@ -99,7 +105,7 @@ void SomfyRemote::BuildFrame(byte *frame, byte button) {
 void SomfyRemote::SendCommand(byte *frame, byte sync) {
   if(sync == 2) { // Only with the first frame.
   // Define pins according to used module
-  ELECHOUSE_cc1101.setModule(_module);
+  ELECHOUSE_cc1101.setModule(_device);
   gdo2_pin = ELECHOUSE_cc1101.GetGDO2();
 
   // Initialize radio chip
