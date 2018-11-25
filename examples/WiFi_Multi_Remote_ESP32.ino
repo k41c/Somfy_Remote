@@ -86,7 +86,7 @@ void onMqttMessage(char *topic, char *payload, AsyncMqttClientMessageProperties 
     char command = ((payloadInput.substring(divider + 1)).c_str())[0];
 
     // Send the command via the corresponding remote
-    for (uint8_t i = 0; i < sizeof(remotes); i++)
+    for (uint8_t i = 0; i < sizeof(remotes)/sizeof(remotes[0]); i++)
     {
       if (remotes[i].getName() == remoteName)
       {
