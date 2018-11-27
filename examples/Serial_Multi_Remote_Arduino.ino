@@ -6,7 +6,6 @@
    Easiest way to make it work for you:
     - Choose a remote name for each remote
     - Choose a remote number for each remote
-    - Choose the used module
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
     - send 'remoteName/p' to the serial terminal
@@ -32,9 +31,6 @@ void setup()
 {
   // Setup Serial
   Serial.begin(115200);
-
-  // Set the used device
-  SomfyRemote::setDevice(0); // <- Change the device here -> Arduino(0) || ESP8266(1) || ESP32(2)
 }
 
 void loop()

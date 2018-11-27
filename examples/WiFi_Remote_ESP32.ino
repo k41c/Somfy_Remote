@@ -6,7 +6,6 @@
    Easiest way to make it work for you:
     - Choose a remote name
     - Choose a remote number
-    - Choose the used module
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
     - Send 'remoteName/p' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
@@ -39,9 +38,6 @@ void setup()
 {
   // Initialize EEPROM
   EEPROM.begin(EEPROM_SIZE);
-
-  // Set the used device
-  SomfyRemote::setDevice(2); // <- Change the device here -> Arduino(0) || ESP8266(1) || ESP32(2)
 
   // Initialize Basecamp
   iot.begin();
