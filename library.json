@@ -19,9 +19,9 @@
   "dependencies":   
   {
     "name": "RCSwitch-CC1101-Driver-Lib",
-    "version": "https://github.com/EinfachArne/RCSwitch-CC1101-Driver-Lib.git"
+    "version": "https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib.git"
   },
-  "version": "0.3.0",
+  "version": "1.0.0",
   "frameworks": "arduino",
   "platforms":         [
       "espressif32",

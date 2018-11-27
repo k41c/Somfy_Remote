@@ -10,7 +10,6 @@ class SomfyRemote {
     byte _remoteCode;
     uint8_t _rollingCode;
     uint8_t _eepromAddress;
-    static uint8_t _device;
 
     void BuildFrame(byte *frame, byte button);
     void SendCommand(byte *frame, byte sync);
@@ -22,6 +21,5 @@ class SomfyRemote {
     SomfyRemote(String name, byte remoteCode); // Constructor requires name, remote code and used module
     String getName(); // Getter for name
     void move(char button); // Method to send a command (Possible inputs: U, D, M, P)
-    static void setDevice(uint8_t device); // Setter for device
 };
 #endif
