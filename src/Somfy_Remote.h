@@ -8,14 +8,13 @@ class SomfyRemote {
   private:
     String _name;
     byte _remoteCode;
-    uint8_t _rollingCode;
-    uint8_t _eepromAddress;
+    uint32_t _rollingCode;
+    uint16_t _eepromAddress;
 
-    void BuildFrame(byte *frame, byte button);
-    void SendCommand(byte *frame, byte sync);
-    void send_bitOne();
-    void send_bitZero();
-    uint8_t getNextEepromAddress();
+    void buildFrame(byte *frame, byte button);
+    void sendCommand(byte *frame, byte sync);
+    void sendBit(bool value);
+    uint16_t getNextEepromAddress();
 
   public:
     SomfyRemote(String name, byte remoteCode); // Constructor requires name, remote code and used module
