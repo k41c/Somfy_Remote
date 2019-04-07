@@ -1,4 +1,4 @@
-/*   This sketch allows you to emulate a Somfy RTS or Simu HZ remote.
+/* This sketch allows you to emulate a Somfy RTS or Simu HZ remote.
    If you want to learn more about the Somfy RTS protocol, check out https://pushstack.wordpress.com/somfy-rts-protocol/
    
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
@@ -8,14 +8,14 @@
     - Choose a remote number
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - Send 'remoteName/p' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
+    - Send 'remoteName/program' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
-    - U will make it go up
-    - D will make it go down
-    - M for MY command
-    - P for PROGRAM command
+    - UP will make it go up
+    - DOWN will make it go down
+    - MY for MY command
+    - PROGRAM for PROGRAM command
 */
 #define DEBUG 1
 #define EEPROM_SIZE 64
@@ -71,7 +71,7 @@ void onMqttMessage(char *topic, char *payload, AsyncMqttClientMessageProperties 
   // Check the message topic
   if (strcmp(topic, controlTopic.c_str()) == 0)
   {
-    somfy.move(payload[0]);
+    somfy.move(payload);
     EEPROM.commit();
   }
 }

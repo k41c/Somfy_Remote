@@ -1,4 +1,4 @@
-/*   This sketch allows you to emulate multiple Somfy RTS or Simu HZ remotes.
+/* This sketch allows you to emulate multiple Somfy RTS or Simu HZ remotes.
    If you want to learn more about the Somfy RTS protocol, check out https://pushstack.wordpress.com/somfy-rts-protocol/
    
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
@@ -8,14 +8,14 @@
     - Choose a remote number for each remote
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - send 'remoteName/p' to the serial terminal
+    - send 'remoteName/program' to the serial terminal
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
-    - U will make it go up
-    - D will make it go down
-    - M for MY command
-    - P for PROGRAM command
+    - UP will make it go up
+    - DOWN will make it go down
+    - MY for MY command
+    - PROGRAM for PROGRAM command
 */
 
 #include <Arduino.h>
@@ -46,10 +46,10 @@ void loop()
         String serialInput = Serial.readString();
         uint8_t divider = serialInput.indexOf("/");
         String remoteName = serialInput.substring(0, divider);
-        char command = ((serialInput.substring(divider + 1)).c_str())[0];
+        String command = (serialInput.substring(divider + 1)).c_str();
 
         // Send the command via the corresponding remote
-        for (uint8_t i = 0; i < sizeof(remotes)/sizeof(remotes[0]); i++)
+        for (uint8_t i = 0; i < sizeof(remotes) / sizeof(remotes[0]); i++)
         {
             if (remotes[i].getName() == remoteName)
             {

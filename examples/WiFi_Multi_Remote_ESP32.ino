@@ -1,4 +1,4 @@
-/*   This sketch allows you to emulate multiple Somfy RTS or Simu HZ remotes.
+/* This sketch allows you to emulate multiple Somfy RTS or Simu HZ remotes.
    If you want to learn more about the Somfy RTS protocol, check out https://pushstack.wordpress.com/somfy-rts-protocol/
    
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
@@ -8,14 +8,14 @@
     - Choose a remote number for each remote
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - send 'remoteName/p' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
+    - send 'remoteName/program' to the MQTT topic room/sender/iot.hostname/command (replace iot.hostname by selected hostname)
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
-    - U will make it go up
-    - D will make it go down
-    - M for MY command
-    - P for PROGRAM command
+    - UP will make it go up
+    - DOWN will make it go down
+    - MY for MY command
+    - PROGRAM for PROGRAM command
 */
 #define DEBUG 1
 #define EEPROM_SIZE 64
@@ -79,10 +79,10 @@ void onMqttMessage(char *topic, char *payload, AsyncMqttClientMessageProperties 
     String payloadInput = payload;
     uint8_t divider = payloadInput.indexOf("/");
     String remoteName = payloadInput.substring(0, divider);
-    char command = ((payloadInput.substring(divider + 1)).c_str())[0];
+    String command = (payloadInput.substring(divider + 1)).c_str();
 
     // Send the command via the corresponding remote
-    for (uint8_t i = 0; i < sizeof(remotes)/sizeof(remotes[0]); i++)
+    for (uint8_t i = 0; i < sizeof(remotes) / sizeof(remotes[0]); i++)
     {
       if (remotes[i].getName() == remoteName)
       {
