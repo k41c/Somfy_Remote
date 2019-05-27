@@ -4,17 +4,17 @@
    The rolling code will be stored in EEPROM, so that you can power the ESP off.
    
    Easiest way to make it work for you:
-    - Choose a remote name
-    - Choose a remote number
+    - Choose a remote name (choose any name you like as it only serves as your personal identifier)
+    - Choose a remote code (make sure that you use each code only once across all remotes as it serves as identifier for the motors)
     - Upload the sketch
     - Long-press the program button of YOUR ACTUAL REMOTE until your blind goes up and down slightly
-    - send 'program' to the serial terminal
+    - Send 'PROGRAM' to the serial terminal
   To make a group command, just repeat the last two steps with another blind (one by one)
   
   Then:
     - UP will make it go up
     - DOWN will make it go down
-    - MY for MY command
+    - MY for MY/STOP command
     - PROGRAM for PROGRAM command
 */
 
@@ -37,8 +37,11 @@ void loop()
   // check if input is available
   if (Serial.available() > 0)
   {
-    String command = (String)Serial.read();
-    somfy.move(command);
-    EEPROM.commit();
+    String command = Serial.readString();
+    if (command == "UP" || command == "DOWN" || command == "MY" || command == "PROGRAM")
+    {
+      somfy.move(command);
+      EEPROM.commit();
+    }
   }
 }
