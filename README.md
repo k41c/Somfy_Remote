@@ -11,20 +11,12 @@ Connect your CC1101 module according to the wiring instructions for Arduino or E
 
 ## How the software works
 Easiest way to make it work for you:  
-* Choose a remote name
-* Choose a remote number
-* Choose your module (Arduino, ESP32)
+* Choose a remote name (choose any name you like as it only serves as your personal identifier)
+* Choose a remote code (make sure that you use each code only once across all remotes as it serves as identifier for the motors)
 * Upload the sketch
 * Long-press the program button of <b>your actual remote</b> until your blind goes up and down slightly  
-* Send 'P' to the <b>simulated remote</b> 
+* Send 'PROGRAM' to the <b>simulated remote</b> 
 
 To make a group command, just repeat the last two steps with another blind (one by one)
 
 The rolling code value is stored in the EEPROM, so that you don't loose count of your rolling code after a reset.
-
-### MQTT support
-For MQTT support the Basecamp library v0.1.8 is required: https://github.com/merlinschumacher/Basecamp/tree/0.1.8
-
-Please have a look at the library instructions to learn how to setup WiFi and MQTT.
-
-Just send U, D, M or P to the corresponding MQTT topic: "room/sender/iot.hostname/command";

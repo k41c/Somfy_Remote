@@ -13,6 +13,7 @@ SomfyRemote KEYWORD1
 #######################################
 
 move KEYWORD2
+getName KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
