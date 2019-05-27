@@ -11,7 +11,7 @@ SomfyRemote::SomfyRemote(String name, uint32_t remoteCode)
 {
   _name = name;
   _remoteCode = remoteCode;
-  _rollingCode = 1;
+  _rollingCode = getRollingCode();
   _eepromAddress = getNextEepromAddress();
 }
 
@@ -29,6 +29,19 @@ uint16_t SomfyRemote::getNextEepromAddress()
   return currentEppromAddress;
 }
 
+// Generates the next available EEPROM address
+uint32_t SomfyRemote::getRollingCode()
+{
+  uint32_t rollingCode;
+
+  // Set new rolling code if not already set
+  if (EEPROM.get(_eepromAddress, rollingCode) < 1)
+  {
+    rollingCode = 1;
+  }
+  return rollingCode;
+}
+
 // Send a command to the blinds
 void SomfyRemote::move(String command)
 {
@@ -37,14 +50,8 @@ void SomfyRemote::move(String command)
   const uint8_t my = 0x1;
   const uint8_t prog = 0x8;
 
-  uint16_t currentRollingCode;
   uint8_t frame[7];
 
-  // Set new rolling code if not already set
-  if (EEPROM.get(_eepromAddress, currentRollingCode) < _rollingCode)
-  {
-    EEPROM.put(_eepromAddress, _rollingCode);
-  }
   // Build frame according to selected command
   command.toUpperCase();
 
@@ -78,14 +85,12 @@ void SomfyRemote::move(String command)
 // Build frame according to Somfy RTS protocol
 void SomfyRemote::buildFrame(uint8_t *frame, uint8_t command)
 {
-  unsigned int code;
   uint8_t checksum = 0;
 
-  EEPROM.get(_eepromAddress, code);
   frame[0] = 0xA7;              // Encryption key.
   frame[1] = command << 4;      // Selected command. The 4 LSB are the checksum
-  frame[2] = code >> 8;         // Rolling code (big endian)
-  frame[3] = code;              // Rolling code
+  frame[2] = _rollingCode >> 8; // Rolling code (big endian)
+  frame[3] = _rollingCode;      // Rolling code
   frame[4] = _remoteCode >> 16; // Remote address
   frame[5] = _remoteCode >> 8;  // Remote address
   frame[6] = _remoteCode;       // Remote address
@@ -107,7 +112,9 @@ void SomfyRemote::buildFrame(uint8_t *frame, uint8_t command)
     frame[i] ^= frame[i - 1];
   }
 
-  EEPROM.put(_eepromAddress, code + 1); //  Store the value of the rolling code in the
+  _rollingCode = _rollingCode + 1;
+
+  EEPROM.put(_eepromAddress, _rollingCode); //  Store the new value of the rolling code in the
                                         // EEPROM.
 }
 

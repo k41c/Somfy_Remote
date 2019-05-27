@@ -16,6 +16,7 @@ private:
   void sendCommand(uint8_t *frame, uint8_t sync);
   void sendBit(bool value);
   uint16_t getNextEepromAddress();
+  uint32_t getRollingCode();
 
 public:
   SomfyRemote(String name, uint32_t remoteCode); // Constructor requires name and remote code
