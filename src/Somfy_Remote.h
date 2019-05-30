@@ -1,3 +1,7 @@
+/*
+This library is based on the Arduino sketch by Nickduino: https://github.com/Nickduino/Somfy_Remote
+*/
+
 #ifndef SOMFY_REMOTE
 #define SOMFY_REMOTE
 

@@ -1,3 +1,7 @@
+/*
+This library is based on the Arduino sketch by Nickduino: https://github.com/Nickduino/Somfy_Remote
+*/
+
 #include "Somfy_Remote.h"
 
 const uint16_t symbol = 604;
@@ -115,7 +119,7 @@ void SomfyRemote::buildFrame(uint8_t *frame, uint8_t command)
   _rollingCode = _rollingCode + 1;
 
   EEPROM.put(_eepromAddress, _rollingCode); //  Store the new value of the rolling code in the
-                                        // EEPROM.
+                                            // EEPROM.
 }
 
 // Send frame according to Somfy RTS protocol
