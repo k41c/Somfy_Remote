@@ -4,7 +4,7 @@ This is a library to emulate one or multiple Somfy remote controls via a CC1101 
 
 If you want to learn more about the Somfy RTS protocol, check out [Pushtack](https://pushstack.wordpress.com/somfy-rts-protocol/).
 
-All credit goes to [Nickduino and his Arduino sketch](https://github.com/Nickduino/Somfy_Remote) that build the foundation of my library.
+All credit goes to [Nickduino and his Arduino sketch](https://github.com/Nickduino/Somfy_Remote) that built the foundation of my library.
 
 ## Hardware
 
