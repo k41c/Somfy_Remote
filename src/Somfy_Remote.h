@@ -1,27 +1,30 @@
+/*
+This library is based on the Arduino sketch by Nickduino: https://github.com/Nickduino/Somfy_Remote
+*/
+
 #ifndef SOMFY_REMOTE
 #define SOMFY_REMOTE
 
 #include <EEPROM.h>
 #include <ELECHOUSE_CC1101_RCS_DRV.h>
 
-class SomfyRemote {
-  private:
-    String _name;
-    byte _remoteCode;
-    uint8_t _rollingCode;
-    uint8_t _eepromAddress;
-    static uint8_t _device;
+class SomfyRemote
+{
+private:
+  String _name;
+  uint32_t _remoteCode;
+  uint32_t _rollingCode;
+  uint16_t _eepromAddress;
 
-    void BuildFrame(byte *frame, byte button);
-    void SendCommand(byte *frame, byte sync);
-    void send_bitOne();
-    void send_bitZero();
-    uint8_t getNextEepromAddress();
+  void buildFrame(uint8_t *frame, uint8_t command);
+  void sendCommand(uint8_t *frame, uint8_t sync);
+  void sendBit(bool value);
+  uint16_t getNextEepromAddress();
+  uint32_t getRollingCode();
 
-  public:
-    SomfyRemote(String name, byte remoteCode); // Constructor requires name, remote code and used module
-    String getName(); // Getter for name
-    void move(char button); // Method to send a command (Possible inputs: U, D, M, P)
-    static void setDevice(uint8_t device); // Setter for device
+public:
+  SomfyRemote(String name, uint32_t remoteCode); // Constructor requires name and remote code
+  String getName();                              // Getter for name
+  void move(String command);                     // Method to send a command (Possible inputs: UP, DOWN, MY, PROGRAM)
 };
 #endif

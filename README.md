@@ -1,30 +1,40 @@
 # Somfy Remote
+
 This is a library to emulate one or multiple Somfy remote controls via a CC1101 module by Texas Instruments.
 
 If you want to learn more about the Somfy RTS protocol, check out [Pushtack](https://pushstack.wordpress.com/somfy-rts-protocol/).
 
+All credit goes to [Nickduino and his Arduino sketch](https://github.com/Nickduino/Somfy_Remote) that build the foundation of my library.
 
-## How the hardware works
+## Hardware
+
+You need:
+
+- CC1101 433Mhz module by Texas Instruments
+- Arduino, ESP8266 or ESP32
+
+Connect your CC1101 module according to the wiring instructions:
+
+- [Arduino](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/blob/master/WIRING%20NANO_UNO.jpg)
+- [ESP8266](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/blob/master/WIRING%20ESP8266.jpg)
+- [ESP32](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/blob/master/WIRING%20ESP32.jpg)
+
+## Software
+
 This library is based on a driver library for the CC1101 module: https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib
 
-Connect your CC1101 module according to the wiring instructions for Arduino or ESP32 of the driver library.
+Directly [download this](https://github.com/EinfachArne/Somfy_Remote/archive/master.zip) and the [driver library](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/archive/2bff72edbee1ee29cbd134d8b2fc47ba0dc0e5f0.zip) or use [this library via PlatformIO](https://platformio.org/lib/show/6414/Somfy_Remote/installation) where it is defined as dependency.
 
-## How the software works
-Easiest way to make it work for you:  
-* Choose a remote name
-* Choose a remote number
-* Choose your module (Arduino, ESP32)
-* Upload the sketch
-* Long-press the program button of <b>your actual remote</b> until your blind goes up and down slightly  
-* Send 'P' to the <b>simulated remote</b> 
+## How To
 
-To make a group command, just repeat the last two steps with another blind (one by one)
+For each blind you want to control individually:
 
-The rolling code value is stored in the EEPROM, so that you don't loose count of your rolling code after a reset.
+- Choose a remote name (choose any name you like as it only serves as your personal identifier)
+- Choose a remote code (make sure that you use each code only once across all remotes as it serves as identifier for the motors)
+- Upload the sketch
+- Long-press the program button of <b>your actual remote</b> until your blind goes up and down slightly
+- Send 'PROGRAM' to the <b>simulated remote</b>
 
-### MQTT support
-For MQTT support the Basecamp library v0.1.8 is required: https://github.com/merlinschumacher/Basecamp/tree/0.1.8
+To control multiple blinds together:
 
-Please have a look at the library instructions to learn how to setup WiFi and MQTT.
-
-Just send U, D, M or P to the corresponding MQTT topic: "room/sender/iot.hostname/command";
+- Repeat the last two steps with another blind (one by one)
