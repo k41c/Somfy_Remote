@@ -15,8 +15,8 @@ SomfyRemote::SomfyRemote(String name, uint32_t remoteCode)
 {
   _name = name;
   _remoteCode = remoteCode;
-  _rollingCode = getRollingCode();
   _eepromAddress = getNextEepromAddress();
+  _rollingCode = getRollingCode();
 }
 
 // Getter for name
@@ -118,8 +118,8 @@ void SomfyRemote::buildFrame(uint8_t *frame, uint8_t command)
 
   _rollingCode = _rollingCode + 1;
 
-  EEPROM.put(_eepromAddress, _rollingCode); //  Store the new value of the rolling code in the
-                                            // EEPROM.
+  EEPROM.put(_eepromAddress, _rollingCode); //  Store the new value of the rolling code in the EEPROM.
+  EEPROM.commit();                                   
 }
 
 // Send frame according to Somfy RTS protocol
