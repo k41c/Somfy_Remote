@@ -59,8 +59,5 @@ void loop()
                 }
             }
         }
-
-        // Commit the rolling codes
-        EEPROM.commit();
     }
 }

@@ -38,7 +38,6 @@ void loop()
     if (command == "UP" || command == "DOWN" || command == "MY" || command == "PROGRAM")
     {
       somfy.move(command);
-      EEPROM.commit();
     }
   }
 }
