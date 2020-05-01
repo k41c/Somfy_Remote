@@ -29,7 +29,11 @@ String SomfyRemote::getName()
 uint16_t SomfyRemote::getNextEepromAddress()
 {
   // Every address gets 4 bytes of space to save the rolling code
-  currentEppromAddress = currentEppromAddress + 4;
+  if (currentEppromAddress != 0)
+  {
+    currentEppromAddress = currentEppromAddress + 4;
+  }
+
   return currentEppromAddress;
 }
 
@@ -119,7 +123,7 @@ void SomfyRemote::buildFrame(uint8_t *frame, uint8_t command)
   _rollingCode = _rollingCode + 1;
 
   EEPROM.put(_eepromAddress, _rollingCode); //  Store the new value of the rolling code in the EEPROM.
-  EEPROM.commit();                                   
+  EEPROM.commit();
 }
 
 // Send frame according to Somfy RTS protocol
