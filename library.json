@@ -15,10 +15,10 @@
     }
   ],
   "dependencies": {
-    "name": "RCSwitch-CC1101-Driver-Lib",
-    "version": "https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib.git#2bff72edbee1ee29cbd134d8b2fc47ba0dc0e5f0"
+    "name": "SmartRC-CC1101-Driver-Lib",
+    "version": "2.3.5"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "frameworks": "arduino",
   "platforms": ["espressif32", "atmelavr"]
 }
