@@ -40,7 +40,7 @@ uint16_t SomfyRemote::getNextEepromAddress()
   uint8_t eppromAddress = currentEppromAddress;
 
   // Every address gets 4 bytes of space to save the rolling code0
-    currentEppromAddress = currentEppromAddress + 4;
+  currentEppromAddress = currentEppromAddress + 4;
 
   return eppromAddress;
 }
@@ -65,9 +65,9 @@ void SomfyRemote::move(String command)
 
   uint8_t frame[7];
 
-  getRollingCode();
-
   EEPROM.begin(EEPROM_SIZE);
+
+  getRollingCode();
 
   // Build frame according to selected command
   command.toUpperCase();
