@@ -4,6 +4,16 @@ This library is based on the Arduino sketch by Nickduino: https://github.com/Nic
 
 #include "Somfy_Remote.h"
 
+#if defined __AVR_ATmega168__
+#define EEPROM_SIZE 512
+#elif defined __AVR_ATmega328__
+#define EEPROM_SIZE 1024
+#elif defined __AVR_ATmega2560__
+#define EEPROM_SIZE 4096
+#elif ESP32 || ESP8266
+#define EEPROM_SIZE 512
+#endif
+
 const uint16_t symbol = 604;
 
 uint8_t currentEppromAddress = 0;
@@ -16,7 +26,6 @@ SomfyRemote::SomfyRemote(String name, uint32_t remoteCode)
   _name = name;
   _remoteCode = remoteCode;
   _eepromAddress = getNextEepromAddress();
-  _rollingCode = getRollingCode();
 }
 
 // Getter for name
@@ -37,17 +46,14 @@ uint16_t SomfyRemote::getNextEepromAddress()
   return currentEppromAddress;
 }
 
-// Generates the next available EEPROM address
-uint32_t SomfyRemote::getRollingCode()
+// Reads the current rolling code
+void SomfyRemote::getRollingCode()
 {
-  uint32_t rollingCode;
-
   // Set new rolling code if not already set
-  if (EEPROM.get(_eepromAddress, rollingCode) < 1)
+  if (EEPROM.get(_eepromAddress, _rollingCode) < 1)
   {
-    rollingCode = 1;
+    _rollingCode = 1;
   }
-  return rollingCode;
 }
 
 // Send a command to the blinds
@@ -59,6 +65,10 @@ void SomfyRemote::move(String command)
   const uint8_t prog = 0x8;
 
   uint8_t frame[7];
+
+  getRollingCode();
+
+  EEPROM.begin(EEPROM_SIZE);
 
   // Build frame according to selected command
   command.toUpperCase();
@@ -88,6 +98,8 @@ void SomfyRemote::move(String command)
   {
     sendCommand(frame, 7);
   }
+
+  EEPROM.commit();
 }
 
 // Build frame according to Somfy RTS protocol
@@ -123,7 +135,6 @@ void SomfyRemote::buildFrame(uint8_t *frame, uint8_t command)
   _rollingCode = _rollingCode + 1;
 
   EEPROM.put(_eepromAddress, _rollingCode); //  Store the new value of the rolling code in the EEPROM.
-  EEPROM.commit();
 }
 
 // Send frame according to Somfy RTS protocol
@@ -133,7 +144,7 @@ void SomfyRemote::sendCommand(uint8_t *frame, uint8_t sync)
   { // Only with the first frame.
 
 // Set pins according to module
-#if defined __AVR_ATmega168__ || defined __AVR_ATmega328P__
+#if defined __AVR_ATmega168__ || defined __AVR_ATmega328__ || defined __AVR_ATmega2560__
     gdo0Pin = 2;
     gdo2Pin = 3;
 #elif ESP32 || ESP8266
