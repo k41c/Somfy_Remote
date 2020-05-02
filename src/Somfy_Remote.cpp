@@ -37,13 +37,12 @@ String SomfyRemote::getName()
 // Generates the next available EEPROM address
 uint16_t SomfyRemote::getNextEepromAddress()
 {
-  // Every address gets 4 bytes of space to save the rolling code
-  if (currentEppromAddress != 0)
-  {
-    currentEppromAddress = currentEppromAddress + 4;
-  }
+  uint8_t eppromAddress = currentEppromAddress;
 
-  return currentEppromAddress;
+  // Every address gets 4 bytes of space to save the rolling code0
+    currentEppromAddress = currentEppromAddress + 4;
+
+  return eppromAddress;
 }
 
 // Reads the current rolling code
