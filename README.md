@@ -15,15 +15,15 @@ You need:
 
 Connect your CC1101 module according to the wiring instructions:
 
-- [Arduino](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/blob/master/WIRING%20NANO_UNO.jpg)
-- [ESP8266](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/blob/master/WIRING%20ESP8266.jpg)
-- [ESP32](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/blob/master/WIRING%20ESP32.jpg)
+- [Arduino](https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Nano_CC1101.png)
+- [ESP8266](https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Esp8266_CC1101.png)
+- [ESP32](https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Esp32_CC1101.png)
 
 ## Software
 
 This library is based on a driver library for the CC1101 module: https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib
 
-Directly [download this](https://github.com/EinfachArne/Somfy_Remote/archive/master.zip) and the [driver library](https://github.com/LSatan/RCSwitch-CC1101-Driver-Lib/archive/2bff72edbee1ee29cbd134d8b2fc47ba0dc0e5f0.zip) or use [this library via PlatformIO](https://platformio.org/lib/show/6414/Somfy_Remote/installation) where it is defined as dependency.
+Directly [download it](https://github.com/EinfachArne/Somfy_Remote/archive/master.zip) and the [driver library](https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/archive/933020a9f8788ef11173278fd5396c16f8939785.zip) or use [this library via PlatformIO](https://platformio.org/lib/show/6414/Somfy_Remote/installation).
 
 ## How To
 
