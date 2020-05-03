@@ -20,16 +20,12 @@
 
 #include <Arduino.h>
 #include <Somfy_Remote.h>
-#include <EEPROM.h>
-
-#define EEPROM_SIZE 64
 
 SomfyRemote somfy("remote1", 0x131478); // <- Change remote name and remote code here!
 
 void setup()
 {
   Serial.begin(115200);
-  EEPROM.begin(EEPROM_SIZE);
 }
 
 void loop()

@@ -20,9 +20,6 @@
 
 #include <Arduino.h>
 #include <Somfy_Remote.h>
-#include <EEPROM.h>
-
-#define EEPROM_SIZE 64
 
 // Array storing the multiple remotes
 SomfyRemote remotes[] = {
@@ -34,7 +31,6 @@ void setup()
 {
     // Setup Serial and EEPROM
     Serial.begin(115200);
-    EEPROM.begin(EEPROM_SIZE);
 }
 
 void loop()
